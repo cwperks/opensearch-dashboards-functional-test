@@ -1,7 +1,7 @@
 name: Release signoff for bundled OpenSearch Dashboards with Anomaly Detection only (x64, Chromium)
-on:
-  schedule:
-    - cron: '15 */2 * * *'
+# on:
+#   schedule:
+#     - cron: '15 */2 * * *'
 jobs:
   tests:
     name: Run Cypress E2E tests
