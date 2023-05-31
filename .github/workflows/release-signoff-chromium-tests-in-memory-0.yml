@@ -1,7 +1,7 @@
 name: Release signoff for bundled OpenSearch Dashboards with Dashboards plugins (x64, Chromium, numTestsKeptInMemory=0)
-on:
-  schedule:
-    - cron: '20 */3 * * *'
+# on:
+#   schedule:
+#     - cron: '20 */3 * * *'
 jobs:
   tests:
     name: Run Cypress E2E tests
