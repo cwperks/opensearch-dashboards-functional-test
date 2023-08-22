@@ -10,7 +10,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Roles page', { testIsolation: false }, () => {
+  describe('Roles page', () => {
     it('should load Roles page properly', () => {
       cy.mockRolesAction(
         SEC_ROLES_FIXTURES_PATH + '/roles_response.json',

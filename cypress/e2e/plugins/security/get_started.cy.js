@@ -9,7 +9,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Home(Get Started) page', { testIsolation: false }, () => {
+  describe('Home(Get Started) page', () => {
     it('should load Home page properly', () => {
       cy.visit(BASE_SEC_UI_PATH);
 

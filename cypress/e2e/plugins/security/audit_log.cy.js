@@ -9,7 +9,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Audit logs page', { testIsolation: false }, () => {
+  describe('Audit logs page', () => {
     it('should load Audit logs page properly', () => {
       cy.mockAuditLogsAction(
         SEC_AUDIT_FIXTURES_PATH + '/audit_info_response.json',

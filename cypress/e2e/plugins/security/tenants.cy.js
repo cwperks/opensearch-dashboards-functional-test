@@ -9,7 +9,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Tenants page', { testIsolation: false }, () => {
+  describe('Tenants page', () => {
     it('should load Tenants page properly', () => {
       cy.mockTenantsAction(
         SEC_TENANTS_FIXTURES_PATH + '/tenants_info_response.json',

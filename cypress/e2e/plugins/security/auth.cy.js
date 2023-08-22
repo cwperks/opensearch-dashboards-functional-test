@@ -9,7 +9,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Authc and Authz page', { testIsolation: false }, () => {
+  describe('Authc and Authz page', () => {
     it('authentication and authorization section should exist', () => {
       cy.mockAuthAction(SEC_FIXTURES_BASE_PATH + '/auth_response.json', () => {
         cy.visit(SEC_UI_AUTH_PATH);

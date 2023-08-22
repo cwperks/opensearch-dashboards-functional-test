@@ -10,7 +10,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Internal users page', { testIsolation: false }, () => {
+  describe('Internal users page', () => {
     it('should load internal users page properly', () => {
       cy.mockInternalUsersAction(
         SEC_INTERNALUSERS_FIXTURES_PATH + '/internalusers_info_response.json',

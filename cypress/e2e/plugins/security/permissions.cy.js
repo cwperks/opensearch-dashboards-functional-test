@@ -9,7 +9,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Permissions page', { testIsolation: false }, () => {
+  describe('Permissions page', () => {
     it('should load Permissions page properly', () => {
       cy.mockPermissionsAction(
         SEC_PERMISSIONS_FIXTURES_PATH + '/actiongroups_response.json',
