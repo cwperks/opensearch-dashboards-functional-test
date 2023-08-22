@@ -5,7 +5,7 @@
 
 import { AD_URL } from '../../../utils/constants';
 
-context('Real-time results page', () => {
+context('Real-time results page', { testIsolation: false }, () => {
   // Creating a sample detector and visiting the config page
   before(() => {
     cy.visit(AD_URL.OVERVIEW);

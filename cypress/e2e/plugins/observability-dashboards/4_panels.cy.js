@@ -153,7 +153,7 @@ describe('Testing panels table', () => {
   });
 });
 
-describe('Testing a panel', () => {
+describe('Testing a panel', { testIsolation: false }, () => {
   it('Move to test panel', () => {
     moveToTestPanel();
   });
