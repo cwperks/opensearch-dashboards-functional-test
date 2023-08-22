@@ -5,11 +5,13 @@ on:
       - main
       - dev-*
       - feature/*
+      - cypress*
   push:
     branches:
       - main
       - dev-*
       - feature/*
+      - cypress*
 jobs:
   tests:
     name: Run Cypress E2E tests
