@@ -10,7 +10,7 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Roles page', () => {
+  describe('Roles page', { testIsolation: false }, () => {
     // start a server so that server responses can be mocked via fixtures
     // in all of the below test cases
     before(() => {
