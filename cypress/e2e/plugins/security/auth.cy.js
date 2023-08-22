@@ -9,11 +9,11 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Authc and Authz page', () => {
+  describe('Authc and Authz page', { testIsolation: false }, () => {
     // start a server so that server responses can be mocked via fixtures
     // in all of the below test cases
     before(() => {
-      cy.server();
+      cy.intercept();
     });
 
     it('authentication and authorization section should exist', () => {

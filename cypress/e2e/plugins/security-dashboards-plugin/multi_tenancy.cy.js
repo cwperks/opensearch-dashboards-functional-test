@@ -17,9 +17,9 @@ import tenantDescription from '../../../fixtures/plugins/security-dashboards-plu
 const tenantName = 'test';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Multi Tenancy Tests: ', () => {
+  describe('Multi Tenancy Tests: ', { testIsolation: false }, () => {
     before(() => {
-      cy.server();
+      cy.intercept();
       cy.createTenant(tenantName, tenantDescription);
       cy.createIndexPattern(
         'index-pattern1',

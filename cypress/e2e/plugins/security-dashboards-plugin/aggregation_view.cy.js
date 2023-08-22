@@ -25,11 +25,11 @@ const roleName2 = 'roleWithoutTest';
 const kibanaRoleName = 'kibana_user';
 
 if (Cypress.env('SECURITY_ENABLED') && Cypress.env('AGGREGATION_VIEW')) {
-  describe('Saved objects table test', () => {
+  describe('Saved objects table test', { testIsolation: false }, () => {
     // start a server so that server responses can be mocked via fixtures
     // in all of the below test cases
     before(() => {
-      cy.server();
+      cy.intercept();
       cy.createTenant(tenantName, tenantDescription);
 
       cy.createIndexPattern('index-pattern1', {

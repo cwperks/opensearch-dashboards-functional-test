@@ -9,11 +9,11 @@ import {
 } from '../../../utils/constants';
 
 if (Cypress.env('SECURITY_ENABLED')) {
-  describe('Audit logs page', () => {
+  describe('Audit logs page', { testIsolation: false }, () => {
     // start a server so that server responses can be mocked via fixtures
     // in all of the below test cases
     before(() => {
-      cy.server();
+      cy.intercept();
     });
 
     it('should load Audit logs page properly', () => {
