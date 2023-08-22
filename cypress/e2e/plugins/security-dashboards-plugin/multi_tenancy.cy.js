@@ -19,7 +19,6 @@ const tenantName = 'test';
 if (Cypress.env('SECURITY_ENABLED')) {
   describe('Multi Tenancy Tests: ', { testIsolation: false }, () => {
     before(() => {
-      cy.intercept();
       cy.createTenant(tenantName, tenantDescription);
       cy.createIndexPattern(
         'index-pattern1',

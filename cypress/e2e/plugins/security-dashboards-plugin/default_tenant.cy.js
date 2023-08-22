@@ -16,7 +16,6 @@ if (Cypress.env('SECURITY_ENABLED')) {
     { testIsolation: false },
     () => {
       before(() => {
-        cy.intercept();
         cy.createTenant(tenantName, tenantDescription);
         cy.changeDefaultTenant({
           multitenancy_enabled: true,
