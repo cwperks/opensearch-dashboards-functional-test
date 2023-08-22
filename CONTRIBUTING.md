@@ -58,13 +58,13 @@ To run tests against a local cluster
 without security:
 
 ```
-$ yarn cypress run-without-security --spec "cypress/integration/core-opensearch-dashboards/vanilla-opensearch-dashboards/*.js"
+$ yarn cypress run-without-security --spec "cypress/e2e/core-opensearch-dashboards/vanilla-opensearch-dashboards/*.js"
 ```
 
 with security:
 
 ```
-$ yarn cypress run-with-security --spec "cypress/integration/core-opensearch-dashboards/opensearch-dashboards/*.js"
+$ yarn cypress run-with-security --spec "cypress/e2e/core-opensearch-dashboards/opensearch-dashboards/*.js"
 ```
 
 These tests run in headless mode by default. You can also manually trigger the test via browser UI by running:
@@ -76,7 +76,7 @@ $ yarn cypress open
 And you can override certain [cypress config or environment variable](cypress.json) by applying additional cli arguments, for example to override the baseUrl and openSearchUrl to test a remote OpenSearch endpoint:
 
 ```
-$ yarn cypress run --spec "cypress/integration/core-opensearch-dashboards/opensearch-dashboards/*.js" --config "baseUrl=https://<endpoint>/_dashboards" --env "openSearchUrl=https://<endpoint>,SECURITY_ENABLED=true,username=admin,password=xxxxxxxx,ENDPOINT_WITH_PROXY=true"
+$ yarn cypress run --spec "cypress/e2e/core-opensearch-dashboards/opensearch-dashboards/*.js" --config "baseUrl=https://<endpoint>/_dashboards" --env "openSearchUrl=https://<endpoint>,SECURITY_ENABLED=true,username=admin,password=xxxxxxxx,ENDPOINT_WITH_PROXY=true"
 ```
 
 `SECURITY_ENABLED`: if true, the `username` and `password` passing in are used as basic authentication credentials during `cy.visit` and `cy.request`. Also, please notice security enabled endpoint normally uses https protocol, so you may want to pass in different urls.
@@ -107,7 +107,7 @@ To onboard your release tests (Dashboards plugins) onto this repo test function,
 
 The dir name shall be descriptive to identify your plugin. You can use the same name defined in build repo https://github.com/opensearch-project/opensearch-build/tree/main/scripts/components
 
-1. Place test files under `cypress/integration/plugins/<plugin-name>`
+1. Place test files under `cypress/e2e/plugins/<plugin-name>`
 
 2. Place fixtures under `cypress/fixtures/plugins/<plugin-name>`
 
@@ -122,13 +122,13 @@ Start OpenSearch and OpenSearch Dashboards. Then refer to the [test execution fi
 E.g if you want to run all plugin tests with security enabled.
 
 ```
-npx cypress run --env SECURITY_ENABLED=true --spec "cypress/integration/plugins/*/*"
+npx cypress run --env SECURITY_ENABLED=true --spec "cypress/e2e/plugins/*/*"
 ```
 
 E.g if you want to run AD plugin tests with security enabled.
 
 ```
-npx cypress run --env SECURITY_ENABLED=true --spec "cypress/integration/plugins/anomaly-detection-dashboards-plugin"
+npx cypress run --env SECURITY_ENABLED=true --spec "cypress/e2e/plugins/anomaly-detection-dashboards-plugin"
 ```
 
 For the complete ways to run Cypress, you can refer to the Cypress official site https://docs.cypress.io/guides/getting-started/.installing-cypress#Opening-Cypress.
@@ -166,7 +166,7 @@ When writing tests for experimental features, please follow these steps.
 
 1. Figure out the folder location to put the tests
 
-Similar to the regular tests, OSD Core tests go to the [folder](integration/core-opensearch-dashboards/opensearch-dashboards/) and OSD plugin tests go to the [folder](cypress/integration/plugins/).
+Similar to the regular tests, OSD Core tests go to the [folder](e2e/core-opensearch-dashboards/opensearch-dashboards/) and OSD plugin tests go to the [folder](cypress/e2e/plugins/).
 
 2. Develop tests with a flag to turn on and off
 
