@@ -14,28 +14,28 @@ import {
   BASE_PATH,
 } from '../../../utils/constants';
 
-const moveToEventsHome = () => {
-  cy.visit(`${BASE_PATH}/app/observability-logs#`);
-  cy.wait(delay * 3);
-};
-
-const moveToPanelHome = () => {
-  cy.visit(`${BASE_PATH}/app/observability-dashboards#`);
-  cy.wait(delay * 3);
-};
-
-const moveToTestPanel = () => {
-  moveToPanelHome();
-  cy.get('.euiTableCellContent')
-    .contains(TEST_PANEL)
-    .trigger('mouseover')
-    .click();
-  cy.wait(delay * 3);
-  cy.get('h1').contains(TEST_PANEL).should('exist');
-  cy.wait(delay);
-};
-
 describe('Panel tests', { testIsolation: false }, () => {
+  const moveToEventsHome = () => {
+    cy.visit(`${BASE_PATH}/app/observability-logs#`);
+    cy.wait(delay * 3);
+  };
+
+  const moveToPanelHome = () => {
+    cy.visit(`${BASE_PATH}/app/observability-dashboards#`);
+    cy.wait(delay * 3);
+  };
+
+  const moveToTestPanel = () => {
+    moveToPanelHome();
+    cy.get('.euiTableCellContent')
+      .contains(TEST_PANEL)
+      .trigger('mouseover')
+      .click();
+    cy.wait(delay * 3);
+    cy.get('h1').contains(TEST_PANEL).should('exist');
+    cy.wait(delay);
+  };
+
   describe('Creating visualizations', () => {
     beforeEach(() => {
       moveToEventsHome();
