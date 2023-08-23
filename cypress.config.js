@@ -34,5 +34,7 @@ module.exports = defineConfig({
     },
     baseUrl: 'http://localhost:5601',
     specPattern: '**/*.(js|ts|tsx)',
+    numTestsKeptInMemory: 5,
+    experimentalMemoryManagement: true,
   },
 });
