@@ -26,7 +26,9 @@ describe('Panel tests', { testIsolation: false }, () => {
   };
 
   const moveToTestPanel = () => {
-    moveToPanelHome();
+    // moveToPanelHome();
+    cy.visit(`${BASE_PATH}/app/observability-dashboards#`);
+    cy.wait(delay * 3);
     cy.get('.euiTableCellContent')
       .contains(TEST_PANEL)
       .trigger('mouseover')
