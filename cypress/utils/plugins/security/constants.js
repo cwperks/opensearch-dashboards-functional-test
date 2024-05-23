@@ -22,7 +22,8 @@ export const SEC_ROLES_FIXTURES_PATH = SEC_FIXTURES_BASE_PATH + '/roles';
 export const SEC_TENANTS_FIXTURES_PATH = SEC_FIXTURES_BASE_PATH + '/tenants';
 
 // UI PATHS
-export const BASE_SEC_UI_PATH = BASE_PATH + '/app/security-dashboards-plugin#';
+export const BASE_SEC_UI_PATH =
+  BASE_PATH + '/app/security-admin-dashboards-plugin#';
 
 export const SEC_UI_AUTH_PATH = BASE_SEC_UI_PATH + '/auth';
 

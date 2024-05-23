@@ -8,10 +8,10 @@ import { BASE_PATH } from '../base_constants';
 // STACK MANAGEMENT PATH
 export const STACK_MANAGEMENT_PATH = BASE_PATH + '/app/management';
 export const SECURITY_PLUGIN_PATH =
-  BASE_PATH + '/app/security-dashboards-plugin#/';
+  BASE_PATH + '/app/security-admin-dashboards-plugin#/';
 
 export const TENANTS_MANAGE_PATH =
-  BASE_PATH + '/app/security-dashboards-plugin#/tenants';
+  BASE_PATH + '/app/security-admin-dashboards-plugin#/tenants';
 
 export const INDEX_PATTERN_PATH =
   STACK_MANAGEMENT_PATH + '/opensearch-dashboards/indexPatterns';
