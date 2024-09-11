@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { inspect } from 'util';
 import { BACKEND_BASE_PATH, IM_API, IM_CONFIG_INDEX } from '../../constants';
 import https from 'https';
 
@@ -20,21 +21,21 @@ Cypress.Commands.add('deleteIMJobs', () => {
     //   }),
     // });
 
-    const options = {
-      hostname: `${Cypress.env('openSearchUrl')}`,
-      path: '/.opendistro-ism*?expand_wildcards=all',
-      method: 'DELETE',
-      cert,
-      key,
-    };
-
-    const req = https.request(options, (res) => {
-      res.on('data', () => {});
+    cy.task("readCertAndKey").then(({ cert, key }) => {
+      const agent = new https.Agent({
+        cert: cert,
+        key: key
+      });
+      const options = {
+        method: "DELETE",
+        headers: {},
+        agent: agent,
+      };
+      cy.request({
+        url: `${Cypress.env("openSearchUrl")}/.opendistro-ism*?expand_wildcards=all`,
+        options,
+      });
     });
-
-    req.on('error', () => {});
-
-    req.end();
   });
   // Clean all ISM policies
   cy.request('GET', `${BACKEND_BASE_PATH}${IM_API.POLICY_BASE}`).then(
@@ -100,23 +101,20 @@ Cypress.Commands.add('updateManagedIndexConfigStartTime', (index) => {
     //   body
     // );
     cy.task('readCertAndKey').then(({ cert, key }) => {
-      const options = {
-        hostname: `${Cypress.env('openSearchUrl')}`,
-        path: `/${IM_CONFIG_INDEX.OPENDISTRO_ISM_CONFIG}/_update_by_query`,
-        method: 'POST',
-        cert,
-        key,
-      };
-
-      const req = https.request(options, (res) => {
-        res.on('data', () => {});
+      const agent = new https.Agent({
+        cert: cert,
+        key: key
       });
-
-      req.on('error', () => {});
-
-      req.write(JSON.stringify(body));
-
-      req.end();
+      const updateOptions = {
+        method: "POST",
+        headers: {},
+        agent: agent,
+      };
+      cy.request({
+        url: `${Cypress.env("openSearchUrl")}/_update_by_query`,
+        body: body,
+        updateOptions,
+      });
     });
   });
 });
