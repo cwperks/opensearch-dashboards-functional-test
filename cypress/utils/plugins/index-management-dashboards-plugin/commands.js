@@ -3,23 +3,52 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { inspect } from 'util';
 import { BACKEND_BASE_PATH, IM_API, IM_CONFIG_INDEX } from '../../constants';
+import https from 'https';
 
 Cypress.Commands.add('deleteIMJobs', () => {
   // TODO don't directly delete system index, use other way
-  cy.request(
-    'DELETE',
-    `${Cypress.env('openSearchUrl')}/.opendistro-ism*?expand_wildcards=all`
-  );
+  cy.task('readCertAndKey').then(({ cert, key }) => {
+    // cy.request({
+    //   method: "DELETE",
+    //   url: `${Cypress.env('openSearchUrl')}/.opendistro-ism*?expand_wildcards=all`,
+    //   headers: {},
+    //   noAuth: true,
+    //   agent: new https.Agent({
+    //     cert: cert,
+    //     key: key,
+    //   }),
+    // });
+
+    cy.task("readCertAndKey").then(({ cert, key }) => {
+      const agent = new https.Agent({
+        cert: cert,
+        key: key
+      });
+      const options = {
+        method: "DELETE",
+        headers: {},
+        agent: agent,
+      };
+      cy.request({
+        url: `${Cypress.env("openSearchUrl")}/.opendistro-ism*?expand_wildcards=all`,
+        options,
+      });
+    });
+  });
   // Clean all ISM policies
   cy.request('GET', `${BACKEND_BASE_PATH}${IM_API.POLICY_BASE}`).then(
     (resp) => {
       const policyIds = resp.body.policies.map((item) => item._id).join(', ');
       if (policyIds.length) {
-        cy.request(
-          'DELETE',
-          `${BACKEND_BASE_PATH}${IM_API.POLICY_BASE}/${policyIds}`
-        );
+        for (const policyId of resp.body.policies) {
+          cy.request({
+            method: 'DELETE',
+            url: `${BACKEND_BASE_PATH}${IM_API.POLICY_BASE}/${policyId._id}`,
+            failOnStatusCode: true,
+          });
+        }
       }
     }
   );
@@ -64,13 +93,29 @@ Cypress.Commands.add('updateManagedIndexConfigStartTime', (index) => {
         source: `ctx._source['managed_index']['schedule']['interval']['start_time'] = ${startTime}L`,
       },
     };
-    cy.request(
-      'POST',
-      `${Cypress.env('openSearchUrl')}/${
-        IM_CONFIG_INDEX.OPENDISTRO_ISM_CONFIG
-      }/_update_by_query`,
-      body
-    );
+    // cy.request(
+    //   'POST',
+    //   `${Cypress.env('openSearchUrl')}/${
+    //     IM_CONFIG_INDEX.OPENDISTRO_ISM_CONFIG
+    //   }/_update_by_query`,
+    //   body
+    // );
+    cy.task('readCertAndKey').then(({ cert, key }) => {
+      const agent = new https.Agent({
+        cert: cert,
+        key: key
+      });
+      const updateOptions = {
+        method: "POST",
+        headers: {},
+        agent: agent,
+      };
+      cy.request({
+        url: `${Cypress.env("openSearchUrl")}/_update_by_query`,
+        body: body,
+        updateOptions,
+      });
+    });
   });
 });
 
