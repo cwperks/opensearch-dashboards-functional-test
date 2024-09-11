@@ -24,8 +24,8 @@ Cypress.Commands.add('deleteIMJobs', () => {
       hostname: `${Cypress.env('openSearchUrl')}`,
       path: '/.opendistro-ism*?expand_wildcards=all',
       method: 'DELETE',
-      cert: cert,
-      key: key,
+      cert,
+      key,
     };
 
     const req = https.request(options, (res) => {
@@ -92,13 +92,32 @@ Cypress.Commands.add('updateManagedIndexConfigStartTime', (index) => {
         source: `ctx._source['managed_index']['schedule']['interval']['start_time'] = ${startTime}L`,
       },
     };
-    cy.request(
-      'POST',
-      `${Cypress.env('openSearchUrl')}/${
-        IM_CONFIG_INDEX.OPENDISTRO_ISM_CONFIG
-      }/_update_by_query`,
-      body
-    );
+    // cy.request(
+    //   'POST',
+    //   `${Cypress.env('openSearchUrl')}/${
+    //     IM_CONFIG_INDEX.OPENDISTRO_ISM_CONFIG
+    //   }/_update_by_query`,
+    //   body
+    // );
+    cy.task('readCertAndKey').then(({ cert, key }) => {
+      const options = {
+        hostname: `${Cypress.env('openSearchUrl')}`,
+        path: `/${IM_CONFIG_INDEX.OPENDISTRO_ISM_CONFIG}/_update_by_query`,
+        method: 'POST',
+        cert,
+        key,
+      };
+
+      const req = https.request(options, (res) => {
+        res.on('data', () => {});
+      });
+
+      req.on('error', () => {});
+
+      req.write(JSON.stringify(body));
+
+      req.end();
+    });
   });
 });
 
