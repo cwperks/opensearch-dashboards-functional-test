@@ -4,29 +4,50 @@
  */
 
 import { BACKEND_BASE_PATH, IM_API, IM_CONFIG_INDEX } from '../../constants';
+import https from 'https';
 
 Cypress.Commands.add('deleteIMJobs', () => {
   // TODO don't directly delete system index, use other way
-  cy.task("readCertAndKey").then(({ cert, key }) => {
-    cy.request({
-      method: "DELETE",
-      url: `${Cypress.env("openSearchUrl")}/.opendistro-ism*?expand_wildcards=all`,
-      headers: {},
-      agentOptions: {
-        cert,
-        key,
-      },
+  cy.task('readCertAndKey').then(({ cert, key }) => {
+    // cy.request({
+    //   method: "DELETE",
+    //   url: `${Cypress.env('openSearchUrl')}/.opendistro-ism*?expand_wildcards=all`,
+    //   headers: {},
+    //   noAuth: true,
+    //   agent: new https.Agent({
+    //     cert: cert,
+    //     key: key,
+    //   }),
+    // });
+
+    const options = {
+      hostname: `${Cypress.env('openSearchUrl')}`,
+      path: '/.opendistro-ism*?expand_wildcards=all',
+      method: 'DELETE',
+      cert: cert,
+      key: key,
+    };
+
+    const req = https.request(options, (res) => {
+      res.on('data', () => {});
     });
+
+    req.on('error', () => {});
+
+    req.end();
   });
   // Clean all ISM policies
   cy.request('GET', `${BACKEND_BASE_PATH}${IM_API.POLICY_BASE}`).then(
     (resp) => {
       const policyIds = resp.body.policies.map((item) => item._id).join(', ');
       if (policyIds.length) {
-        cy.request(
-          'DELETE',
-          `${BACKEND_BASE_PATH}${IM_API.POLICY_BASE}/${policyIds}`
-        );
+        for (const policyId of resp.body.policies) {
+          cy.request({
+            method: 'DELETE',
+            url: `${BACKEND_BASE_PATH}${IM_API.POLICY_BASE}/${policyId._id}`,
+            failOnStatusCode: true,
+          });
+        }
       }
     }
   );
