@@ -97,10 +97,10 @@ export const createDetector = (
     .then(() => {
       cy.sa_createRule(ruleSettings)
         .then((response) => {
+          const responseBody = response && response.body ? response.body : {};
+          const nestedResponse = responseBody.response || {};
           const ruleId =
-            response?.body?.response?._id ||
-            response?.body?._id ||
-            response?.body?.id;
+            nestedResponse._id || responseBody._id || responseBody.id;
           expect(ruleId, 'created rule id').to.exist;
           detectorConfig.inputs[0].detector_input.custom_rules[0].id = ruleId;
           detectorConfig.triggers[0].ids.push(ruleId);
@@ -148,5 +148,3 @@ export const logTypeLabels = {
   linux: 'Linux System Logs',
   azure: 'Microsoft Azure',
 };
-
-
